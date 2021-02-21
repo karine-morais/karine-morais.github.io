@@ -71,14 +71,14 @@
 		}
 
 		function iniciarTextura() {
+			var imagemPredio = new Image();
 			predioTextura = gl.createTexture();
-			predioTextura.image = new Image();
-		//	predioTextura.crossOrigin = "anonymous";  // ask for CORS permission();
+			predioTextura.image = imagemPredio;
 
-			predioTextura.image.onload = function () {
+			imagemPredio.onload = function () {
 				tratarTextura(predioTextura);
 			}
-			predioTextura.image.src = "predio.jpg";
+			imagemPredio.src = "predio.jpg";
 			shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
 		}
 
