@@ -64,12 +64,16 @@
 
         var ultimo = 0;
 
-
-        var predioTextura;
-
         var xRot = 0;
+        var xVelo = 0;
+
         var yRot = 0;
-        var zRot = 0;
+        var yVelo = 0;
+
+        var z = -5.0;
+
+        var filtro = 0;
+
 
         // Iniciar o ambiente quando a página for carregada
         $(function () {
@@ -82,16 +86,17 @@
             iniciarShaders();  // Obter e processar os Shaders
             iniciarBuffers();  // Enviar o triângulo e quadrado na GPU
             iniciarAmbiente(); // Definir background e cor do objeto
-            /*---Adicione esta linha---*/
             iniciarTextura();
+
+            document.onkeydown = eventoTeclaPress;
+            document.onkeyup = eventoTeclaSolta;
             tick();
         }
 
 
-
-
         function tick() {
             requestAnimFrame(tick);
+            tratarTeclado();
             desenharCena();
             animar();
         }
@@ -260,8 +265,8 @@
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(coordTextura), gl.STATIC_DRAW);
             cuboVertexTextureCoordBuffer.itemSize = 2;
             cuboVertexTextureCoordBuffer.numItems = 24;
-            
-              cuboVertexIndexBuffer = gl.createBuffer();
+
+            cuboVertexIndexBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cuboVertexIndexBuffer);
 
             var indices = [
@@ -289,25 +294,17 @@
             mat4.identity(mMatrix);
             mat4.identity(vMatrix);
 
-            /*---Retire as chamadas para mPushMatrix e mPopMatrix---*/
+            mat4.translate(mMatrix, mMatrix, [0.0, 0.0, z]);
 
-            /*---Altere a translação---*/
-            mat4.translate(mMatrix, mMatrix, [0.0, 0.0, -5.0]);
-
-            /*---Remova a antiga rotação do cubo---*/
-            /*---Adicione estas 3 linhas---*/
             mat4.rotate(mMatrix, mMatrix, degToRad(xRot), [1, 0, 0]);
             mat4.rotate(mMatrix, mMatrix, degToRad(yRot), [0, 1, 0]);
-            mat4.rotate(mMatrix, mMatrix, degToRad(zRot), [0, 0, 1]);
 
             gl.bindBuffer(gl.ARRAY_BUFFER, cuboVertexPositionBuffer);
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, cuboVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-            /*---substitua cuboVertexColorBuffer por cuboVertexTextureCoordBuffer---*/
-            /*---substitua vertexColorAttribute por vertexTextureCoordAttribute---*/
             gl.bindBuffer(gl.ARRAY_BUFFER, cuboVertexTextureCoordBuffer);
-            gl.vertexAttribPointer(shaderProgram.vertexTextureCoordAttribute, cuboVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0); /*---Adicione estas 3 linhas antes de drawElements---*/
+            gl.vertexAttribPointer(shaderProgram.vertexTextureCoordAttribute, cuboVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, predioTextura);
+            gl.bindTexture(gl.TEXTURE_2D, caixaTexturas[filtro]);
             gl.uniform1i(shaderProgram.samplerUniform, 0);
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cuboVertexIndexBuffer);
@@ -327,11 +324,8 @@
             var agora = new Date().getTime();
             if (ultimo != 0) {
                 var diferenca = agora - ultimo;
-                /*---remova rPiramide e rCubo---*/
-                /*---adicione estas linhas---*/
-                xRot += ((90 * diferenca) / 1000.0) % 360.0;
-                yRot += ((75 * diferenca) / 1000.0) % 360.0;
-                zRot += ((50 * diferenca) / 1000.0) % 360.0;
+                xRot += ((xVelo * diferenca) / 1000.0) % 360.0;
+                yRot += ((yVelo * diferenca) / 1000.0) % 360.0;
             }
             ultimo = agora;
         }
@@ -354,27 +348,79 @@
             return graus * Math.PI / 180;
         }
 
-
-        function tratarTextura(textura) {
-            gl.bindTexture(gl.TEXTURE_2D, textura);
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textura.image);
+        function tratarTextura(texturas) {
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.bindTexture(gl.TEXTURE_2D, texturas[0]);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texturas[0].image);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+
+            gl.bindTexture(gl.TEXTURE_2D, texturas[1]);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texturas[1].image);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+            gl.bindTexture(gl.TEXTURE_2D, texturas[2]);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texturas[2].image);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+            gl.generateMipmap(gl.TEXTURE_2D);
+
             gl.bindTexture(gl.TEXTURE_2D, null);
         }
+        var caixaTexturas = Array();
 
         function iniciarTextura() {
-            predioTextura = gl.createTexture();
-            predioTextura.image = new Image();
-            predioTextura.image.crossOrigin = "anonymous";  // ask for CORS permission();
-
-            predioTextura.image.onload = function () {
-                tratarTextura(predioTextura);
+            var imagemCaixa = new Image();
+            for (var i = 0; i < 3; i++) {
+                var textura = gl.createTexture();
+                textura.image = imagemCaixa;
+                caixaTexturas.push(textura);
             }
-            predioTextura.image.src = "predio.jpg";
+            imagemCaixa.onload = function () {
+                tratarTextura(caixaTexturas);
+            }
+            imagemCaixa.src = "caixa.gif";
             shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+        }
 
+        var teclasPressionadas = {};
+
+        function eventoTeclaPress(evento) {
+            teclasPressionadas[evento.keyCode] = true;
+
+            if (String.fromCharCode(evento.keyCode) == "F")
+                filtro = (filtro + 1) % 3;
+        }
+
+        function eventoTeclaSolta(evento) {
+            teclasPressionadas[evento.keyCode] = false;
+        }
+        function tratarTeclado() {
+            if (teclasPressionadas[33]) {
+                // Page Up
+                z -= 0.05;
+            }
+            if (teclasPressionadas[34]) {
+                // Page Down
+                z += 0.05;
+            }
+            if (teclasPressionadas[37]) {
+                // Esquerda
+                yVelo -= 1;
+            }
+            if (teclasPressionadas[39]) {
+                // Direita
+                yVelo += 1;
+            }
+            if (teclasPressionadas[38]) {
+                // Cima
+                xVelo -= 1;
+            }
+            if (teclasPressionadas[40]) {
+                // Baixo
+                xVelo += 1;
+            }
         }
     </script>
 
