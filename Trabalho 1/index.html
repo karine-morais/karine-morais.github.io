@@ -526,14 +526,14 @@
 
         function desenharCena() {
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-            mat4.perspective(pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);
+            mat4.perspective(pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 1, 100.0);
             mat4.identity(mMatrix);
             mat4.identity(vMatrix);
 
             //Desenhando Triangulo6
 
             var translation = vec3.create();
-            vec3.set (translation, -1.5, 1.0, -7.0);
+            vec3.set (translation, -0.25, -0.5, -4.0);
             mat4.translate(mMatrix, mMatrix, translation);
             gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer6);
             gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertexPositionBuffer6.itemSize, gl.FLOAT, false, 0, 0);
@@ -658,7 +658,7 @@
 </head>
 
 <body>
-    <canvas id="canvas-webgl" width="1000px" height="1000px" style="border:none">
+    <canvas id="canvas-webgl" width="500px" height="500px" style="border:none">
     </canvas>
 </body>
 
