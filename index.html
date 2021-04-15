@@ -1,31 +1,45 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Forest Flappy Bird</title>
+    <meta name="description" content="Forest" />
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene background="color: #ECECEC">
+      <!-- Asset management system. -->
+      <a-assets>
+        <img
+          id="background"
+          src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fforest.jpg?v=1618502661233"
+        />
+        <img
+          id="ground"
+          src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fgrass.jpg?v=1618502555728"
+        />
+      </a-assets>
 
-<head>
-    <title>
-        Computação Gráfica
-    </title>
-    <style>
-        * {
-            font-family: Helvetica, sans-serif;
-        }
+  <a-sphere
+        position="0 1.25 -5"
+        radius="1.25"
+        color="#EF2D5E"
+        shadow
+      ></a-sphere>
 
-        a {
-            font-size: 25px;
-        }
-    </style>
-</head>
 
-<body>
-    <h1>Trabalhos de CG</h1>
-    <h3>Karine Morais</h3>
-    <a href="Tutorial 2/index.html">Tutorial 2</a><br><br>
-    <a href="Tutorial 3/index.html">Tutorial 3</a><br><br>
-    <a href="Tutorial 4/index.html">Tutorial 4</a><br><br>
-    <a href="Tutorial 5/index.html">Tutorial 5</a><br><br>
-    <a href="Tutorial 6/index.html">Tutorial 6</a><br><br>
-    <a href="Tutorial 7/index.html">Tutorial 7</a><br><br>
-    <a href="Trabalho 1/index.html"> Trabalho 1</a><br><br>
-	<a href="Trabalho 2/index.html"> Trabalho 2</a>
-</body>
-
+      <a-sky src="#background" repeat="5"></a-sky>
+      <a-plane
+        src="#ground"
+        position="0 0 -5"
+        rotation="-90 0 0"
+        width="100"
+        height="100"
+        color="#7BC8A4"
+        repeat="10 10"
+        shadow
+      ></a-plane>
+      <a-entity cilinder="3"></a-entity>
+    </a-scene>
+  </body>
 </html>
