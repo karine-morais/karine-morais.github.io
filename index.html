@@ -19,14 +19,33 @@
           src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fgrass.jpg?v=1618502555728"
         />
       </a-assets>
-
-  <a-sphere
-        position="0 1.25 -5"
-        radius="1.25"
-        color="#EF2D5E"
+      <script maxposition; minposition;></script>
+      <a-sphere
+        static-body
+        physics-collider="ignoreSleep:true"
+        id="esfera1"
+        position="0 0.5 -5"
+        radius="0.5"
+        color="#ff0000"
         shadow
       ></a-sphere>
-
+      <a-sphere
+        static-body
+        physics-collider="ignoreSleep:true"
+        id="esfera2"
+        position="0 0.5 -5"
+        radius="0.5"
+        color="#ff0000"
+        shadow
+      ></a-sphere>
+      <script>
+        esfera = document.getElementById("esfera1");
+        function createNewSpherePosition(){
+          maxposition=15;
+          minposition=1;
+          
+        }
+      </script>
 
       <a-sky src="#background" repeat="5"></a-sky>
       <a-plane
