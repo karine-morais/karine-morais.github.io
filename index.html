@@ -4,10 +4,26 @@
     <meta charset="utf-8" />
     <title>Forest Flappy Bird</title>
     <meta name="description" content="Forest" />
+    <script src="https://unpkg.com/aframe-extras@3.3.0/dist/aframe-extras.min.js"></script>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   </head>
   <body>
+    <script>
+      placar;
+      velocidademov;
+      comecou;
+      jogador;
+      alturaesfera1;
+      alturaesfera2;
+      alturaesfera3;
+      AFRAME.registerComponent("jogador", {
+        init: function() {
+          jogador = this.el;
+        }
+      });
+    </script>
     <a-scene background="color: #ECECEC">
+      model-viewer="gltfModel: #triceratops; title: Triceratops"
       <!-- Asset management system. -->
       <a-assets>
         <img
@@ -19,12 +35,20 @@
           src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fgrass.jpg?v=1618502555728"
         />
       </a-assets>
-      <script maxposition; minposition;></script>
+
+      <a-asset-item
+        id="triceratops"
+        position="0 1 -5"
+        src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fscene.gltf?v=1618527096263"
+        response-type="arraybuffer"
+        static-body
+        physics-collider="ignoreSleep: true"
+      ></a-asset-item>
       <a-sphere
         static-body
         physics-collider="ignoreSleep:true"
         id="esfera1"
-        position="0 0.5 -5"
+        position="0 2 -5"
         radius="0.5"
         color="#ff0000"
         shadow
@@ -33,17 +57,36 @@
         static-body
         physics-collider="ignoreSleep:true"
         id="esfera2"
-        position="0 0.5 -5"
+        position="0 8 -10"
+        radius="0.5"
+        color="#ff0000"
+        shadow
+      ></a-sphere>
+      <a-sphere
+        static-body
+        physics-collider="ignoreSleep:true"
+        id="esfera3"
+        position="0 5 -15"
         radius="0.5"
         color="#ff0000"
         shadow
       ></a-sphere>
       <script>
-        esfera = document.getElementById("esfera1");
-        function createNewSpherePosition(){
-          maxposition=15;
-          minposition=1;
-          
+        esfera1 = document.getElementById("esfera1");
+        esfera2 = document.getElementById("esfera2");
+        esfera3 = document.getElementById("esfera2");
+        cont = 0;
+
+        function createNewSpherePosition() {
+          maxpos = 15;
+          minpos = 1;
+          if (cont == 0) {
+            esfera2 = Math.floor(Math.random() * (maxpos - minpos)) + minpos;
+            esfera3 = ath.floor(Math.random() * (maxpos - minpos)) + minpos;
+          }
+          esfera1.setAttibute("position", "0 " + esfera2 + " -5");
+          esfera1.setAttibute("position", "0 " + esfera2 + " -10");
+          esfera1.setAttibute("position", "0 " + esfera2 + " -15");
         }
       </script>
 
