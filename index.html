@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <title>Forest Flappy Bird</title>
     <meta name="description" content="Forest" />
-    <script src="https://unpkg.com/aframe-extras@3.3.0/dist/aframe-extras.min.js"></script>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   </head>
   <body>
@@ -13,9 +12,7 @@
       velocidademov;
       comecou;
       jogador;
-      alturaesfera1;
-      alturaesfera2;
-      alturaesfera3;
+
       AFRAME.registerComponent("jogador", {
         init: function() {
           jogador = this.el;
@@ -92,23 +89,9 @@
         height="9"
         color="#090808"
       ></a-plane>
-            <a-plane
-        id="parede7"
-        src="#ground"
-        position="0 0 -25"
-        width="3"
-        height="9"
-        color="#090808"
-      ></a-plane>
+            <a-plane id="parede7" src="#ground" position="0 0 -25" width="3" height="9" color="#090808"></a-plane>
       <a-plane id="parede8" src="#ground" position="-3 0 -25" width="3" height="9" color="#090808"></a-plane>
-      <a-plane 
-        id="parede9"
-        src="#ground"
-        position="3 0 -25"
-        width="3"
-        height="9"
-        color="#ff0000"
-      ></a-plane>
+      <a-plane id="parede9" src="#ground" position="3 0 -25" width="3" height="9" color="#ff0000" ></a-plane>
            <a-plane id="parede10" src="#ground" position="-3 0 -35" width="3" height="9" color="#ff0000"></a-plane>
            <a-plane id="parede11" src="#ground" position="0 0 -35" width="3" height="9" color="#090808"></a-plane>
            <a-plane id="parede12" src="#ground" position="3 0 -35" width="3" height="9" color="#090808"></a-plane>
@@ -148,28 +131,10 @@
            <a-plane id="parede46" src="#ground" position="-3 0 -155" width="3" height="9" color="#ff0000"></a-plane>
            <a-plane id="parede47" src="#ground" position="0 0 -155" width="3" height="9" color="#090808"></a-plane>
            <a-plane id="parede48" src="#ground" position="3 0 -155" width="3" height="9" color="#090808"></a-plane>
-                                            
-                                                                                                        
-      
-      
 
+     <a-entity camera look-controls wasd-controls="acceleration:100" position="0 1.6 0"></a-entity>
       <script>
-        esfera1 = document.getElementById("esfera1");
-        esfera2 = document.getElementById("esfera2");
-        esfera3 = document.getElementById("esfera2");
-        cont = 0;
 
-        function createNewSpherePosition() {
-          maxpos = 15;
-          minpos = 1;
-          if (cont == 0) {
-            esfera2 = Math.floor(Math.random() * (maxpos - minpos)) + minpos;
-            esfera3 = ath.floor(Math.random() * (maxpos - minpos)) + minpos;
-          }
-          esfera1.setAttibute("position", "0 " + esfera2 + " -5");
-          esfera1.setAttibute("position", "0 " + esfera2 + " -10");
-          esfera1.setAttibute("position", "0 " + esfera2 + " -15");
-        }
       </script>
 
       <a-sky src="#background" repeat="5"></a-sky>
@@ -183,7 +148,6 @@
         repeat="2 80"
         shadow
       ></a-plane>
-      <a-entity cilinder="3"></a-entity>
     </a-scene>
   </body>
 </html>
