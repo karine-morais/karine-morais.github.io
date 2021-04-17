@@ -9,13 +9,44 @@
   <body>
  <script>
   console.log("FUNFOU", AFRAME);
+   
+  var portas= [0, -3, 3, -3, 0, -3, 3, 0, 3, -3, 0, 3, -3, -3, 0, -3];
+  var proximaPorta = -50;
+  var countPorta = 0;
+  var dinossauro = document.getElementById("dinossauro");
   setInterval(function(){ 
     var player = document.querySelector("a-camera");
     var pos = player.getAttribute("position");
+    if(Math.trunc(pos.z*10) == proximaPorta){
+     if(portas[countPorta] == pos.x){
+       console.log("PASSOU");
+     }else{
+       alert("Você perdeu!");
+       pos.z = 0;
+     }
+     proximaPorta -= 100;
+     countPorta += 1;
+    }
     pos.z += -0.1;
     player.setAttribute("position", pos);
   }, 30);
    
+   setInterval(function(){ 
+    var player = document.querySelector("a-camera");
+    var pos = player.getAttribute("position");
+    if(Math.trunc(pos.z*10) == proximaPorta){
+     if(portas[countPorta] == pos.x){
+       console.log("PASSOU");
+     }else{
+       pos.z = 0;
+     }
+     proximaPorta -= 100;
+     countPorta += 1;
+    }
+    pos.z += -0.1;
+    player.setAttribute("position", pos);
+  }, 30);
+  
   AFRAME.registerComponent("foo", {
     init: function() {
       console.log("FUNFOU DENOVO", AFRAME);
@@ -62,70 +93,69 @@
           src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fforest.jpg?v=1618502661233"
         />
         <img
+          id="wall"
+          src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fmadeira.jpg?v=1618616448176"
+        />
+        <img
           id="ground"
           src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fgrass.jpg?v=1618502555728"
         />
       </a-assets>
 
-      <a-asset-item  
-        id="triceratops"
-        position="0 1 -5"
-        src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fscene.gltf?v=1618527096263"
-        response-type="arraybuffer"
-        static-body
-        physics-collider="ignoreSleep: true"
-      ></a-asset-item>
-      <a-plane id="parede1" src="#ground" position="0 0 -5" width="3" height="9" color="#ff0000"></a-plane>
-      <a-plane id="parede2" src="#ground" position="-3 0 -5" width="3" height="9" color="#090808"></a-plane>
-      <a-plane id="parede3" src="#ground" position="3 0 -5" width="3" height="9" color="#090808"></a-plane>
-      <a-plane id="parede4" src="#ground" position="0 0 -15" width="3" height="9" color="#090808"></a-plane>
-      <a-plane id="parede5" src="#ground" position="-3 0 -15" width="3" height="9" color="#ff0000"></a-plane>
-      <a-plane id="parede6" src="#ground" position="3 0 -15" width="3" height="9" color="#090808"></a-plane>
-      <a-plane id="parede7" src="#ground" position="0 0 -25" width="3" height="9" color="#090808"></a-plane>
-      <a-plane id="parede8" src="#ground" position="-3 0 -25" width="3" height="9" color="#090808"></a-plane>
-      <a-plane id="parede9" src="#ground" position="3 0 -25" width="3" height="9" color="#ff0000" ></a-plane>
-           <a-plane id="parede10" src="#ground" position="-3 0 -35" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede11" src="#ground" position="0 0 -35" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede12" src="#ground" position="3 0 -35" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede13" src="#ground" position="-3 0 -45" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede14" src="#ground" position="0 0 -45" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede15" src="#ground" position="3 0 -45" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede16" src="#ground" position="-3 0 -55" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede17" src="#ground" position="0 0 -55" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede18" src="#ground" position="3 0 -55" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede19" src="#ground" position="-3 0 -65" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede20" src="#ground" position="0 0 -65" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede21" src="#ground" position="3 0 -65" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede22" src="#ground" position="-3 0 -75" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede23" src="#ground" position="0 0 -75" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede24" src="#ground" position="3 0 -75" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede25" src="#ground" position="-3 0 -85" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede26" src="#ground" position="0 0 -85" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede27" src="#ground" position="3 0 -85" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede28" src="#ground" position="-3 0 -95" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede29" src="#ground" position="0 0 -95" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede30" src="#ground" position="3 0 -95" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede31" src="#ground" position="-3 0 -105" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede32" src="#ground" position="0 0 -105" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede33" src="#ground" position="3 0 -105" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede34" src="#ground" position="-3 0 -115" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede35" src="#ground" position="0 0 -115" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede36" src="#ground" position="3 0 -115" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede37" src="#ground" position="-3 0 -125" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede38" src="#ground" position="0 0 -125" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede39" src="#ground" position="3 0 -125" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede40" src="#ground" position="-3 0 -135" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede41" src="#ground" position="0 0 -135" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede42" src="#ground" position="3 0 -135" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede43" src="#ground" position="-3 0 -145" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede44" src="#ground" position="0 0 -145" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede45" src="#ground" position="3 0 -145" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede46" src="#ground" position="-3 0 -155" width="3" height="9" color="#ff0000"></a-plane>
-           <a-plane id="parede47" src="#ground" position="0 0 -155" width="3" height="9" color="#090808"></a-plane>
-           <a-plane id="parede48" src="#ground" position="3 0 -155" width="3" height="9" color="#090808"></a-plane>
-
+      
+      <a-plane id="parede1" position="0 0 -5" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede2" position="-3 0 -5" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede3" position="3 0 -5" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede4" position="0 0 -15" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede5" position="-3 0 -15" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede6" position="3 0 -15" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede7" position="0 0 -25" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede8" position="-3 0 -25" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede9" position="3 0 -25" width="3" height="9" color="#e39751" ></a-plane>
+      <a-plane id="parede10" position="-3 0 -35" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede11" position="0 0 -35" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede12" position="3 0 -35" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede13" position="-3 0 -45" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede14" position="0 0 -45" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede15" position="3 0 -45" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede16" position="-3 0 -55" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede17" position="0 0 -55" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede18" position="3 0 -55" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede19" position="-3 0 -65" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede20" position="0 0 -65" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede21" position="3 0 -65" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede22" position="-3 0 -75" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede23" position="0 0 -75" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede24" position="3 0 -75" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede25" position="-3 0 -85" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede26" position="0 0 -85" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede27" position="3 0 -85" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede28" position="-3 0 -95" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede29" position="0 0 -95" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede30" position="3 0 -95" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede31" position="-3 0 -105" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede32" position="0 0 -105" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede33" position="3 0 -105" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede34" position="-3 0 -115" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede35" position="0 0 -115" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede36" position="3 0 -115" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede37" position="-3 0 -125" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede38" position="0 0 -125" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede39" position="3 0 -125" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede40" position="-3 0 -135" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede41" position="0 0 -135" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede42" position="3 0 -135" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede43" position="-3 0 -145" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede44" position="0 0 -145" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede45" position="3 0 -145" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede46" position="-3 0 -155" width="3" height="9" color="#e39751"></a-plane>
+      <a-plane id="parede47" position="0 0 -155" width="3" height="9" color="#090808"></a-plane>
+      <a-plane id="parede48" position="3 0 -155" width="3" height="9" color="#090808"></a-plane>
+      
       <a-camera foo wasd-controls="enabled:false" position = "0 1.6 0"></a-camera>
-
+      <a-asset-item foo id="dinossauro" position="0 1.6 0" response-type="arraybuffer" src="https://cdn.glitch.com/7acea05c-8f2b-4204-85e2-5da6acd4d00e%2Fscene.glb?v=1618617674196" static-body physics-collider="ignoreSleep: true"></a-asset-item>
+        <a-entity gltf-model="#dinossauro" static-body physics-collider="ignoreSleep: true" scale="0.005 0.005 0.005" animation-mixer="clip:Armature|run_cycle" animation-mixer="clip:Armature|run_cycle" >
+        </a-entity>
       <a-sky src="#background" repeat="5"></a-sky>
       <a-plane
         src="#ground"
